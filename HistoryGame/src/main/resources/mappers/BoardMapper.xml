@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.history.game.lol.mapper.BoardMapper">
+
+	<insert id="insertBoard" parameterType="com.history.game.lol.board.BoardVO">
+		INSERT INTO hgDB.board(
+			btitle,
+			bpw,
+			userid,
+			hit,
+			parent,
+			file1,
+			file2,
+			content,
+			regdate,
+			username, 
+			email,
+			phone,
+			sch_name
+		) VALUES(
+			#{btitle },
+			#{bpw },
+			#{userid },
+			#{hit },
+			#{parent },
+			#{file1 },
+			#{file2 },
+			#{content },
+			DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),
+			#{username }, 
+			#{email },
+			#{phone },
+			#{sch_name }
+		)
+		
+	</insert>
+	
+	<select id="search_est" parameterType="com.history.game.lol.board.BoardVO" resultType = "com.history.game.lol.board.BoardVO">
+		select * from hgDB.board where username = #{username} and phone=#{phone}
+	</select>
+	
+	<select id="count_brd_total" resultType="int">
+		select count(*) from hgDB.board
+	</select>
+	
+	<select id="get_brd_total" resultType="com.history.game.lol.board.BoardVO" parameterType="HashMap">
+		select bidx, btitle, username,date_format(regdate, '%Y-%m-%d') as regdate, sch_name from hgDB.board order by regdate desc limit ${startnum }, ${endnum }
+	</select>
+	
+	<select id="count_brd_day" resultType="int">
+		select count(*) as day_cnt from hgDB.board where date_format(regdate,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') order by regdate desc
+	</select>
+	
+	<select id="get_brd_day" resultType="com.history.game.lol.board.BoardVO" parameterType="HashMap">
+		select bidx, btitle, username, date_format(regdate, '%Y-%m-%d') as regdate, sch_name from hgDB.board where date_format(regdate,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') order by regdate desc limit ${startnum }, ${endnum }
+	</select>
+	
+		
+</mapper>

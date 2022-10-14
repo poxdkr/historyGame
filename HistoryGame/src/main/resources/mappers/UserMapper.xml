@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.history.game.lol.mapper.UserMapper">
+	
+	<!-- 이름을 통해 유저를 확인(로그인 및 사용자 확인에서 사용) -->
+	<select id="checkUser" parameterType="com.history.game.lol.user.UserVO" resultType="com.history.game.lol.user.UserVO">
+		select * from amorDB.user where userid = #{userid }
+	</select>
+	
+	<!-- 유저등록 -->
+	<insert id="registUser" parameterType="com.history.game.lol.user.UserVO">
+		insert into hgDB.user (
+			userid,
+			pw,
+			grade,
+			upoint,
+			cert,
+			regdate,
+			role,
+			aff_sch
+		) values(
+			#{userid },
+			#{pw },
+			#{grade },
+			#{upoint },
+			#{cert },
+			DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),
+			#{role },
+			#{aff_sch }
+		) 
+	</insert>
+	
+	<!-- 전체 유저의 숫자 카운트 -->
+	<select id="count_user_total" resultType="int">
+		select count(*) as total_cnt from hgDB.user
+	</select>
+	
+	<!-- 전체 유저의 명세 리스트 -->
+	<select id="get_user_total" resultType="com.history.game.lol.user.UserVO" parameterType="HashMap">
+		select uidx, userid, grade, role, date_format(regdate,'%Y-%m-%d') as regdate from hgDB.user order by regdate desc limit ${startnum }, ${endnum }
+	</select>
+	<!-- 이달의 가입자수 카운트 -->
+	<select id="count_user_month" resultType="int">
+		select count(*) as month_cnt from hgDB.user where date_format(regdate,'%Y-%m') = date_format(now(),'%Y-%m') order by regdate desc
+	</select>
+		<!-- 이달의 가입자 명세 리스트 -->
+	<select id="get_user_month" resultType="com.history.game.lol.user.UserVO"  parameterType="HashMap">
+		select uidx, userid, grade, role, date_format(regdate,'%Y-%m-%d') as regdate from hgDB.user where date_format(regdate,'%Y-%m') = date_format(now(),'%Y-%m') order by regdate desc limit ${startnum }, ${endnum }  
+	</select>
+	
+	
+	<!-- 회원탈퇴 처리 -->
+	<delete id="delete_user" parameterType="com.history.game.lol.user.UserVO">
+		delete from hgDB.user where uidx = #{uidx }
+	</delete>
+</mapper>
