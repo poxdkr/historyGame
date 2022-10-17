@@ -8,17 +8,16 @@
  </style>
 
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
-
+  <section id="hero" class="d-flex align-items-center" style="height:100vh;">
     <div class="container">
-      <div class="row">
+      <div class="row col-12">
         <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-          <h1>안녕!</h1>
+          
           <!-- <h2><i class="ri-play-fill"></i> 아래 버튼을 클릭해서 시작하렴!</h2> -->
           
         </div>
-        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-          	<img src="assets/img/lol_white.png" class="img-fluid animated" alt="">
+        <div class="col-lg-6 order-1 order-lg-2 hero-img m-4 text-center" data-aos="zoom-in" data-aos-delay="200">
+          	<img src="assets/img/lol_white.png" class="img-fluid animated" alt="" style='width:100px;'>
         </div>
       </div>
     </div>

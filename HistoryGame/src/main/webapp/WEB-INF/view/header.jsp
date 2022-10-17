@@ -10,8 +10,8 @@ String ak = (String)getData.get_ak();
 <head>
 <meta charset="UTF-8">
 <%@include file="common.jsp" %>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+ 
   <title>HistoryGame</title>
 <!--   <meta content="" name="description"> -->
   <meta content="" name="keywords">
@@ -22,7 +22,7 @@ String ak = (String)getData.get_ak();
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center">
-      <h1 class="logo me-auto"><a href="/"><small>No Name</small></a></h1>
+      <h1 class="logo me-auto"><a href="/"><small class='fw-bolder'>HistoryGame <span class='text-muted small'>(made by. WG)</span></small></a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 

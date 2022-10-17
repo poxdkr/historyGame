@@ -385,10 +385,9 @@ $(function(){
 
 <!-- section_1 -->
  <section id="hero" class="d-flex align-items-center">
-
     <div class="container">
       <div class="row m-3 pt-0">
-        <div class="col-lg-6 order-1 order-lg-2 bg-white  rounded border border-0 card align-items-center" data-aos="zoom-in" data-aos-delay="200" style='height:700px;'>
+        <div class="col-lg-6 order-1 order-lg-2 bg-white ps-0 pe-0 rounded border border-0 card align-items-center" data-aos="zoom-in" data-aos-delay="200" style='height:700px;'>
         	<div class="card-header text-center col-12">
         		<h6 class='lead fw_bolder'>나의 전적</h6>
         	</div>
@@ -496,7 +495,7 @@ $(function(){
   
 
   
-  <footer id='footer' class='position-fixed bottom-0 col-12 pb-2'>
+  <footer id='footer' class='position-fixed bottom-0 col-12 pb-2 pt-1'>
   		<div class="d-flex justify-content-center justify-content-lg-start footer-top pt-0 pb-0 bg-transparent">
           	<!-- modal trigger -->
             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#main_btn_modal"><i class="ri-menu-line fw-bolder"></i></i></a>

@@ -180,10 +180,14 @@ public class pageController {
 		  model.addAttribute("matchId_info",matchId_info);
 		  
 		  //model.addAttribute("match_info_detail",match_info_detail);
-		  
-		
-		  
 		  return "/total_page";
 	  }
+	  
+	  @RequestMapping("/go_champ_page")
+	  public String go_champ_page() {
+		  System.out.println("champ_page로 이동");
+		  return "champ_page";
+	  }
+	  
 	  
 }
