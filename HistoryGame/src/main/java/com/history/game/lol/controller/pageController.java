@@ -42,7 +42,7 @@ public class pageController {
 	
 	
 	@GetMapping("/")
-	public String goIndex() {
+	public String goIndex(){
 		System.out.println("index로 이동");
 		return "index";
 	}

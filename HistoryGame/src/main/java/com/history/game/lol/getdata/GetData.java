@@ -15,8 +15,15 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 public class GetData {
 	
-	private final String api_key = "RGAPI-4aece921-0bd0-4d77-8d0b-ebce93db65e1";
+	private final String api_key = "RGAPI-9e05069a-8f33-4ae5-878d-a6f88b42d186";
 	private final String base_url = "https://kr.api.riotgames.com";
+	
+	//api_key getter
+	public String get_ak(){
+		return this.api_key;
+	}
+	
+	//
 	public HashMap<String, String> get_summoner_data(String summoner) {
 		
 		String base_url = this.base_url;
@@ -159,42 +166,6 @@ public class GetData {
 			System.out.println(match_str);
 			
 			resultMap.put("matchId_info", match_str);
-			
-			//3) 모든 항목을 반복하여 서버로 요청하여 결과를 받고 값 저장하기
-//			List<String> match_info_detail = new ArrayList<>();
-//			JSONArray j_arr = new JSONArray();
-//			
-//			for(int i=0; i<match_info_arr.length; i++) {
-//				String matchId = match_info_arr[i];
-//				req_url ="/lol/match/v5/matches/";
-//				base_url_1 = "https://asia.api.riotgames.com";
-//				url = new URL(base_url_1+req_url+matchId+api_key);
-//				conn = (HttpsURLConnection)url.openConnection();
-//				conn.setRequestMethod("GET"); //https 메소드
-//				conn.setRequestProperty("Content-Type", "application/json"); //header
-//				conn.setDoOutput(true);
-//				
-//				//서버로부터 데이터 읽어오기 br = new BufferedReader(new
-//				br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//				StringBuilder match_detail = new StringBuilder();
-//				line = null;
-//				  
-//				while((line = br.readLine()) != null ){
-//					match_detail.append(line); 
-//				}
-//				
-//				String match_detail_str = match_detail.toString();
-//				JSONObject json_obj = new JSONObject(match_detail_str);
-//				
-//				j_arr.put(json_obj);
-//				match_info_detail.add(match_detail_str);
-//			}
-//			
-//			//System.out.println(j_arr);
-//			
-//			String match_info_detail_str = j_arr.toString();
-//			
-//			resultMap.put("match_info_detail", match_info_detail_str);
 			
 			return resultMap;
 			

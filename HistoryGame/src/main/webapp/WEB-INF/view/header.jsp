@@ -1,5 +1,10 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@page import="com.history.game.lol.getdata.GetData"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+GetData getData = new GetData();
+String ak = (String)getData.get_ak();
+%>    
  <!DOCTYPE html>
  <html>
 <head>
@@ -13,6 +18,7 @@
 </head>
 
 <body>
+	<input type='hidden' name='ak' id='ak' value=<%=ak %> >
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center">
