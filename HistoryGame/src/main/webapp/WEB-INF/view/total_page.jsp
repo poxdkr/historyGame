@@ -20,7 +20,7 @@ emblems.master = emblem_src+"Emblem_Master.png";
 emblems.grandmaster = emblem_src+"Emblem_Grandmaster.png";
 emblems.challenger = emblem_src+"Emblem_Challenger.png";
 
-
+const firtsLoad = true;
 
 function fetch_champ_resource(){
 		return fetch('/assets/js/champion.json').then(r => r.json()).then(function(json){
@@ -33,6 +33,22 @@ function fetch_item_resource(){
 	return fetch('/assets/js/item.json').then(r => r.json()).then(function(json){
     var data_str = JSON.stringify(json.data);
 	sessionStorage.setItem('item_data',data_str);
+});		
+}
+
+function fetch_summoner_resource(){
+	return fetch('/assets/js/summoner.json').then(r => r.json()).then(function(json){
+    var data_str = JSON.stringify(json.data);
+	sessionStorage.setItem('summoner_data',data_str);
+});		
+}
+
+function fetch_rune_resource(){
+	return fetch('/assets/js/runesReforged.json').then(r => r.json()).then(function(json){
+    var data_str = JSON.stringify(json.data);
+	sessionStorage.setItem('rune_data',data_str);
+	console.log("룬정보");
+	console.log(data_str);
 });		
 }
 
@@ -61,13 +77,27 @@ function change_mode(type){
 	matchId_info_str = matchId_info_str.substring(1,matchId_info_str.length-1);
 	var matchId_arr = matchId_info_str.split(",");
 	
-	//챔피언의 정보 fetch
-	fetch_champ_resource();
+	//처음 로드시에 static한 데이터를 fetch하고 이후부터는 로드된 데이터들을 이용한다.
+	if(firtsLoad == true){
+		//챔피언의 정보 fetch
+		fetch_champ_resource();
+		//아이템 정보 fetch
+		fetch_item_resource();
+		//서머너스펠 정보 fetch
+		fetch_summoner_resource();
+		//룬 정보 fetch
+		fetch_rune_resource();
+	}
+	
 	var champ_data = JSON.parse(sessionStorage.getItem('champ_data'));
 	
-	//아이템 정보 fetch
-	fetch_item_resource();
+	
 	var item_data = JSON.parse(sessionStorage.getItem('item_data'));
+	
+	var summoner_data = JSON.parse(sessionStorage.getItem('summoner_data'));
+	
+
+	
 	
 	// queue Type 선언
 	const QUEUETYPE = {
@@ -227,13 +257,21 @@ function change_mode(type){
 				
 				html ="";
 				html += "<tr class='"+bg_color+"'>";
-				html += "<td class='align-middle p-1' rowspan='3' style='width:20%;'>";
+				html += "<td class='align-middle p-1' rowspan='3' style='width:14%; border-bottom : 3px solid lightgrey'>";
 				html += "<img src='"+myMatch.champ_src+"' class='img rounded border border-secondary p-0' style='width:75px; height:75px'>";
+				html += "</td>";
+				html += "<td class='align-middle p-0' rowspan='3' style='width:5%; border-bottom : 3px solid lightgrey'>";
+				/* 룬이랑 스펠 넣을 자리 */
+				html += "<span id='spell_d'>D</span><br>";
+				html += "<span id='spell_f'>F</span><br>";
+				html += "<span id='rune_1'>R1</span><br>";
+				html += "<span id='rune_2'>R2</span><br>";
 				html += "</td>";
 				html += "<td class='align-middle text-center' style='width:25%'>";
 				html += "<span id='qtype' class='p-0 text-muted fw-bolder'>"+myMatch.queueType+"</span>";
 				html += "</td>";
-				html += "<td class='align-middle text-center'>";
+				html += "<td class='align-middle text-center small fw-bold text-dark bg-warning bg-gradient bg-opacity-10' style='border-left:1.5px solid #f8f8f8'>평점</td>";
+				html += "<td class='align-middle text-center '>";
 				let avg = ((parseInt(myMatch.kills) + parseInt(myMatch.assists)) / parseInt(myMatch.deaths)).toFixed(2);
 				let avgColor;
 				if(avg >= 5.00){
@@ -252,15 +290,16 @@ function change_mode(type){
 				html += "<td class='align-middle text-center'>";
 				html += "<span class='p-0 "+winColor+"' id='win'>"+winOrLose+"</span>";
 				html += "</td>";
+				html += "<td class='align-middle text-center small fw-bold text-dark bg-warning bg-gradient bg-opacity-10' style='border-left:1.5px solid #f8f8f8'>KDA</td>";
 				html += "<td class='align-middle text-center'>";
 				html += "<span class='p-0 text-muted fw-bolder' id='kda'><span class='text-danger'> "+myMatch.kills+" </span> / <span class='text-secondary'>"+myMatch.deaths+"</span> / <span class='text-primary'>"+myMatch.assists+"</span> </span>";
 				html += "</td>";
 				html += "</tr>";
 				html += "<tr class='"+bg_color+"'>";
-				html += "<td class='align-middle text-center'>";
+				html += "<td class='align-middle text-center' style='border-bottom : 3px solid lightgrey'>";
 				html += "<span class='p-0 text-muted fw-bolder' id='duration'>"+myMatch.gameDuration+"</span>";
 				html += "</td>";
-				html += "<td class='align-middle text-center'>";
+				html += "<td colspan ='2' class='align-middle text-center p-0' style='border-bottom : 3px solid lightgrey; border-left: 2px solid #f8f8f8;'>";
 				html += "<img src='"+myMatch.item0+"' class='img p-0 rounded border border-white' id='item0_img' style='width:13%;'>";
 				html += "<img src='"+myMatch.item1+"' class='img p-0 rounded border border-white' id='item1_img' style='width:13%;'>";
 				html += "<img src='"+myMatch.item2+"' class='img p-0 rounded border border-white' id='item2_img' style='width:13%;'>";
@@ -352,6 +391,8 @@ function change_mode(type){
 	$("#rank").html(rank);
 	var user_name = rank_info.summonerName;
 	$("#user_name").html(user_name);
+	var summon_lv = user_info.summonerLevel;
+	$("#summon_lv").html("lv. "+summon_lv);
 	var lp = rank_info.leaguePoints;
 	$("#lp").html(lp);
 	var wins = rank_info.wins;
@@ -361,17 +402,38 @@ function change_mode(type){
 	var winRate = ((wins / (wins+losses))*100).toFixed(0);
 	$("#winRate").html(winRate);
 	
-	
+	//winrate_chart 그리기
+	//chart canvas초기화
+	$("#chart_div").html("");
+	let chart_html = '<canvas id="chart_canvas" width="400" height="400"></canvas>';
+	$("#chart_div").html(chart_html);
+	//canvas 설정 및 로드
+	const ctx = document.getElementById('chart_canvas').getContext('2d');
+	const myChart = new Chart(ctx, {
+	    type: 'doughnut',
+	    data: {
+	         labels: [rank_info.wins+'승', rank_info.losses+'패'],
+	        datasets: [{
+	            label: '',
+	            data: [rank_info.wins, rank_info.losses],
+	            backgroundColor: ['rgba(54, 162, 235, 0.2)','rgba(255, 99, 132, 0.2)'],
+	            hoverBorderColor: ['rgba(54, 162, 235, 1)','rgba(255, 99, 132, 1)'],
+	            borderWidth: 1,
+	            rotation : 180
+	        }]
+	    },
+	    options: {
+	        /* scales: {y: {beginAtZero: false}} */
+	    }
+	});
 }
  
 
 
 //onload
 $(function(){
-	
 	//처음 결과 load
 	change_mode('solo');
-	
 });
 
 
@@ -384,13 +446,13 @@ $(function(){
 <input type = "hidden" name = "match_info_detail" id= "match_info_detail" value=${match_info_detail } >
 
 <!-- section_1 -->
- <section id="hero" class="d-flex align-items-center">
-    <div class="container">
+ <section id="hero" class="d-flex flex-column align-items-center">
+    <div class="">
       <div class="row m-3 pt-0">
         <div class="col-lg-6 order-1 order-lg-2 bg-white ps-0 pe-0 rounded border border-0 card align-items-center" data-aos="zoom-in" data-aos-delay="200" style='height:700px;'>
-        	<div class="card-header text-center col-12">
+        	<!-- <div class="card-header text-center col-12">
         		<h6 class='lead fw_bolder'>나의 전적</h6>
-        	</div>
+        	</div> -->
         	<div class='col-12 align-items-center d-flex mt-2 mb-2'>
         		<div class='col-6 align-items-center'>
 	          		<input class='btn-check me-2' type='radio' name='sel_rank' id='solo_rank' value='solo_rank' onclick='change_mode("solo");' checked>
@@ -407,19 +469,37 @@ $(function(){
 	          		<h6 class='lead small fw-bold'>랭크 정보</h6>
 	          	</div>
 	          	
-	          	<img id='rank_emblem' src="assets/img/lol_white.png" class="img-fluid animated mx-auto" alt="" style='width:150px; height:150px;'>
+	          	<div class='col-10 mx-auto mt-4 mb-4 p-1 d-flex flex-column justify-content-center border border-dark rounded'>
+	          		<img id='rank_emblem' src="assets/img/lol_white.png" class="img-fluid animated mx-auto" alt="" style='width:150px; height:150px;'>
+		          	<div class='col-12 mt-2 mb-2 d-flex justify-content-center'>
+		          		<h6 class='col-4 ps-0 pe-0 pt-2 pb-2'><span id='tier'><!-- SILVER --></span><span class='ms-2' id='rank'><!-- III --></span></h6>
+		          		<h5 class='col-4 ps-0 pe-0 text-muted  pt-2 pb-2'><span class='me-2' id='lp'><!-- LP --></span>LP</h5>
+		          	</div>
+	          		<h6 class='col-8 fw-bolder mx-auto'><span  class='btn btn-dark btn-sm ' id='summon_lv'><!-- 소환사레벨 --></span></h6>
+	          		<h5 class='col-8 fw-bolder mx-auto'><span id='user_name'><!-- 소환사이름 --></span></h5> 
+	          	</div>
 	          	
-	          	<div class='col-12 d-flex mt-2 mb-2'>
-	          		<h6 class='col-4 ps-0 pe-0 pt-2 pb-2'><span id='tier'><!-- SILVER --></span><span class='ms-2' id='rank'><!-- III --></span></h6>
-	          		<h5 class='col-8 fw-bolder pt-1 pb-1'><span id='user_name'><!-- 소환사이름 --></span></h5>
+	          	<!-- winrate_div -->
+          		<div class='col-12 d-flex justify-content-center'>
+          			<div class="col-4 d-flex flex-column">
+	          			<h5 class='btn btn-success btn-sm'>승리</h5>
+		          		<h5 class='btn btn-outline-success' id='wins'><!-- 승 --></h5>
+	          		</div>
+	          		<div class="col-4 d-flex flex-column">
+		          		<h5 class='btn btn-danger btn-sm'>패배</h5>
+		          		<h5 class='btn btn-outline-danger' id='losses'><!-- 패 --></h5>
+	          		</div>
+	          		<div class="col-4 d-flex flex-column">
+		         		<h5 class='btn btn-secondary btn-sm'>승률(%) </h5>
+		         		<h5 class='btn btn-outline-secondary' id='winRate'><!-- 승률 --></h5>
+	          		</div>
+          		</div>
+          		<!-- winrate_div -->
+	          	<!-- chart_div -->	
+	          	<div class='col-12 d-flex mt-2 mb-2 small justify-content-center'>
+	          		<div class='col-9' id='chart_div'><!--  --></div>
 	          	</div>
-	          	<!-- LP, 승, 패 -->
-	          	<div class='col-12 d-flex mt-2 mb-2 small'>
-	          		<h5 class='col-4 ps-0 pe-0 text-muted'><span class='me-2' id='lp'><!-- LP --></span>LP</h5>
-	          		<h5 class='col-3 ps-0 pe-0 text-success'><span class='me-2' id='wins'><!-- 승 --></span>W</h5>
-	          		<h5 class='col-3 ps-0 pe-0 text-danger'><span class='me-2' id='losses'><!-- 패 --></span>L</h5>
-	          		<h5 class='col-2 ps-0 pe-0 text-secondary '><span class='me-2' id='winRate'><!-- 패 --></span>%</h5>
-	          	</div>
+	          	<!-- chart_div -->
           	</div>
           	
           	<div class='row align-items-center mt-2 mb-2 pt-0 pb-2 border border-secondary rounded'>
