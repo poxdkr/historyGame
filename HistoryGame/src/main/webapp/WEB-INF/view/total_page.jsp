@@ -24,34 +24,50 @@ const firtsLoad = true;
 
 function fetch_champ_resource(){
 		return fetch('/assets/js/champion.json').then(r => r.json()).then(function(json){
-	    var data_str = JSON.stringify(json.data);
-		sessionStorage.setItem('champ_data',data_str);
+	    var data_str0 = JSON.stringify(json.data);
+		sessionStorage.setItem('champ_data',data_str0);
 	});		
 }
 
 function fetch_item_resource(){
 	return fetch('/assets/js/item.json').then(r => r.json()).then(function(json){
-    var data_str = JSON.stringify(json.data);
-	sessionStorage.setItem('item_data',data_str);
+    var data_str1 = JSON.stringify(json.data);
+	sessionStorage.setItem('item_data',data_str1);
 });		
 }
 
 function fetch_summoner_resource(){
 	return fetch('/assets/js/summoner.json').then(r => r.json()).then(function(json){
-    var data_str = JSON.stringify(json.data);
-	sessionStorage.setItem('summoner_data',data_str);
+    var data_str2 = JSON.stringify(json.data);
+	sessionStorage.setItem('summoner_data',data_str2);
 });		
 }
 
 function fetch_rune_resource(){
 	return fetch('/assets/js/runesReforged.json').then(r => r.json()).then(function(json){
-    var data_str = JSON.stringify(json.data);
-	sessionStorage.setItem('rune_data',data_str);
-	console.log("룬정보");
-	console.log(data_str);
+    var data_str3 = JSON.stringify(json);
+	sessionStorage.setItem('rune_data',data_str3);
 });		
 }
 
+//룬 설명창 확인
+function show_tooltip(name, desc){
+	$("#perk_div").css("width","300px");
+	$("#perk_div").css("display","block");
+	$("#perk_name").html("["+name+"]");
+	if(desc != "none"){
+		$("#perk_desc").html(desc);
+	}else{
+		$("#perk_desc").html("");
+	}
+}
+//룬설명창 d-none;
+function no_tooltip(){
+	$("#perk_div").css("width","0px");
+	$("#perk_div").css("display","none");
+	$("#perk_name").html("");
+	$("#perk_desc").html("");
+}
 
 
 function change_mode(type){
@@ -89,15 +105,12 @@ function change_mode(type){
 		fetch_rune_resource();
 	}
 	
+	//static data 확인
 	var champ_data = JSON.parse(sessionStorage.getItem('champ_data'));
-	
-	
 	var item_data = JSON.parse(sessionStorage.getItem('item_data'));
-	
 	var summoner_data = JSON.parse(sessionStorage.getItem('summoner_data'));
-	
-
-	
+	var rune_data = JSON.parse(sessionStorage.getItem('rune_data'));
+	console.log(summoner_data);
 	
 	// queue Type 선언
 	const QUEUETYPE = {
@@ -145,19 +158,25 @@ function change_mode(type){
 				let participants = data.info.participants;
 				for(var i=0; i<participants.length; i++){
 					if(participants[i].summonerName == user_info.name){
-						myMatch.assists =  participants[i].assists;
-						myMatch.championId =  participants[i].championId;
-						myMatch.deaths =  participants[i].deaths;
-						myMatch.item0 =  participants[i].item0;
-						myMatch.item1 =  participants[i].item1;
-						myMatch.item2 =  participants[i].item2;
-						myMatch.item3 =  participants[i].item3;
-						myMatch.item4 =  participants[i].item4;
-						myMatch.item5 =  participants[i].item5;
-						myMatch.item6 =  participants[i].item6;
-						myMatch.kills =  participants[i].kills;
-						myMatch.lane =  participants[i].lane;
-						myMatch.win =  participants[i].win;
+						
+						myMatch.assists =  participants[i].assists; //어시스트
+						myMatch.championId =  participants[i].championId; //챔피언 픽
+						myMatch.deaths =  participants[i].deaths;// 데스
+						myMatch.item0 =  participants[i].item0;// 아이템 1
+						myMatch.item1 =  participants[i].item1;// 아이템 2
+						myMatch.item2 =  participants[i].item2;// 아이템 3
+						myMatch.item3 =  participants[i].item3;// 아이템 4
+						myMatch.item4 =  participants[i].item4;// 아이템 5
+						myMatch.item5 =  participants[i].item5;// 아이템 6
+						myMatch.item6 =  participants[i].item6; // 와드
+						myMatch.kills =  participants[i].kills; // 킬수
+						myMatch.lane =  participants[i].lane; // 라인
+						myMatch.win =  participants[i].win; //승패 여부
+						myMatch.rune_1_id = participants[i].perks.styles[0].selections[0].perk; //주요 룬확인
+						myMatch.rune_2_id = participants[i].perks.styles[1].style; // 서브룬 확인
+						
+						myMatch.spell_d = participants[i].summoner1Id;
+						myMatch.spell_f = participants[i].summoner2Id;
 						
 						//챔피언 이미지 매칭
 						for(key in champ_data){
@@ -220,8 +239,44 @@ function change_mode(type){
 							myMatch.item6 = imgSrc+"noItem.png";
 						}
 						
+						//스펠 확인
+						
+						//룬 확인
+
+						let rune_1_substr = (myMatch.rune_1_id).toString().substring(0,2);
+						let rune_2_substr = myMatch.rune_2_id;
+						console.log(myMatch.rune_1_id);
+						console.log(myMatch.rune_2_id);
+						
+						for(key in rune_data){
+							if(rune_data[key].id.toString().substring(0,2) == rune_1_substr){ //1번룬 확인
+								myMatch.rune_1_icon = "https://ddragon.leagueoflegends.com/cdn/img/"+rune_data[key].slots[0].runes[0].icon;
+								myMatch.rune_1_name = rune_data[key].slots[0].runes[0].name;
+								myMatch.rune_1_shortDesc = rune_data[key].slots[0].runes[0].shortDesc;
+							}
+							
+							if(rune_data[key].id == rune_2_substr){
+								myMatch.rune_2_name = rune_data[key].name;
+								myMatch.rune_2_icon = "https://ddragon.leagueoflegends.com/cdn/img/"+rune_data[key].icon;
+							}
+						}
+						
+						for(key in summoner_data){
+							var imgSrc = "assets/img/spell/";
+							if(summoner_data[key].key == myMatch.spell_d){
+								myMatch.spell_d_name = summoner_data[key].name;
+								myMatch.spell_d_desc = summoner_data[key].description;
+								myMatch.spell_d_img = imgSrc+summoner_data[key].image.full;
+								
+							}else if(summoner_data[key].key == myMatch.spell_f){
+								myMatch.spell_f_name = summoner_data[key].name;
+								myMatch.spell_f_desc = summoner_data[key].description;
+								myMatch.spell_f_img = imgSrc+summoner_data[key].image.full;
+							}
+						}
 					}
 				}
+				console.log(myMatch);
 				//게임시간 확인
 				let gameDuration = data.info.gameDuration;
 				var hour = parseInt(gameDuration/3600) < 10 ? '0'+ parseInt(gameDuration/3600) : parseInt(gameDuration/3600);
@@ -260,12 +315,12 @@ function change_mode(type){
 				html += "<td class='align-middle p-1' rowspan='3' style='width:14%; border-bottom : 3px solid lightgrey'>";
 				html += "<img src='"+myMatch.champ_src+"' class='img rounded border border-secondary p-0' style='width:75px; height:75px'>";
 				html += "</td>";
-				html += "<td class='align-middle p-0' rowspan='3' style='width:5%; border-bottom : 3px solid lightgrey'>";
+				html += "<td class='align-middle p-0 text-center' rowspan='3' style='width:5%; border-bottom : 3px solid lightgrey'>";
 				/* 룬이랑 스펠 넣을 자리 */
-				html += "<span id='spell_d'>D</span><br>";
-				html += "<span id='spell_f'>F</span><br>";
-				html += "<span id='rune_1'>R1</span><br>";
-				html += "<span id='rune_2'>R2</span><br>";
+				html += "<span class='p-0 text-center' id='spell_d' onmouseenter='show_tooltip(\""+myMatch.spell_d_name+"\", \""+myMatch.spell_d_desc+"\");' onmouseout='no_tooltip();'><img class='img rounded' src='"+myMatch.spell_d_img+"' style='width:100%;'></span><br>";
+				html += "<span class='p-0 text-center' id='spell_f' onmouseenter='show_tooltip(\""+myMatch.spell_f_name+"\", \""+myMatch.spell_f_name+"\");' onmouseout='no_tooltip();'><img class='img rounded' src='"+myMatch.spell_f_img+"' style='width:100%;'></span><br><hr class='mt-1 mb-1 p-0'>";
+				html += "<span class='p-0 text-center' id='rune_1' onmouseenter='show_tooltip(\""+myMatch.rune_1_name+"\", \""+myMatch.rune_1_shortDesc+"\");' onmouseout='no_tooltip();'><img class='img rounded' src='"+myMatch.rune_1_icon+"' style='width:100%;'></span><br>";
+				html += "<span class='p-0 text-center' id='rune_2' onmouseenter='show_tooltip(\""+myMatch.rune_2_name+"\", \"none\");' onmouseout='no_tooltip();'><img class='img rounded'src='"+myMatch.rune_2_icon+"' style='width:80%;'></span><br>";
 				html += "</td>";
 				html += "<td class='align-middle text-center' style='width:25%'>";
 				html += "<span id='qtype' class='p-0 text-muted fw-bolder'>"+myMatch.queueType+"</span>";
@@ -570,10 +625,11 @@ $(function(){
         </div>
       </div>
     </div>
-    
+    <div class='position-fixed border border-white rounded bg-dark bg-opacity-15 p-3 small text-secondary' style='top:150px; left:100px; display:none;' id='perk_div'>
+    	<span class='fw-bolder text-white' id='perk_name'><!--  --></span></br>
+    	<span id='perk_desc'><!--  --></span>
+    </div>
   </section><!-- End Hero -->
-  
-
   
   <footer id='footer' class='position-fixed bottom-0 col-12 pb-2 pt-1'>
   		<div class="d-flex justify-content-center justify-content-lg-start footer-top pt-0 pb-0 bg-transparent">

@@ -15,7 +15,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 public class GetData {
 	
-	private final String api_key = "RGAPI-6ace45e9-3f6f-4b9b-909e-8f87ffc0bfba";
+	private final String api_key = "RGAPI-f1e1d8e5-88ed-4afe-b7ca-ab046e7635f8";
 	private final String base_url = "https://kr.api.riotgames.com";
 	
 	//api_key getter
