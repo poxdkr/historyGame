@@ -167,7 +167,7 @@ function open_champInfo(type, keyword){
 		if(type == "all"){ //전체 검색일 경우
 			for(key in champ_data){
 				
-				champ_name = champ_data[key].name;
+				champ_name = champ_data[key].name.length > 6 ? champ_data[key].name.substring(0,6)+"..." : champ_data[key].name;
 				let image = champ_data[key].image.full;
 				
 				//첫줄일 경우
