@@ -7,6 +7,8 @@
 %>
 
 <script>
+
+
 //emblem_src_json
 var emblem_src = './assets/img/emblems/';
 var emblems = {"iron":"","bronze":"","silver":"","gold":"","platinum":"","diamond":"","master":"","grandmaster":"","challenger":""};
@@ -50,7 +52,9 @@ function fetch_rune_resource(){
 });		
 }
 
-//룬 설명창 확인
+/* 
+ (미사용 코드)
+ //룬 설명창 확인
 function show_tooltip(name, desc){
 	$("#perk_div").css("width","300px");
 	$("#perk_div").css("display","block");
@@ -67,7 +71,7 @@ function no_tooltip(){
 	$("#perk_div").css("display","none");
 	$("#perk_name").html("");
 	$("#perk_desc").html("");
-}
+} */
 
 
 function change_mode(type){
@@ -76,17 +80,17 @@ function change_mode(type){
 	//유저 기본정보
 	let user_info_str = $("#user_info").val();
 	let user_info = JSON.parse(user_info_str);
-	console.log("user_info",user_info);
+	//console.log("user_info",user_info);
 	
 	//유저의 entry 정보
 	let entry_info_str = $("#entry_info").val();
 	let entry_info = JSON.parse(entry_info_str);
-	console.log("entry_info",entry_info);
+	//console.log("entry_info",entry_info);
 	
 	//마스터리 정보
 	let mastery_info_str = $("#mastery_info").val();
 	let mastery_info = JSON.parse(mastery_info_str);
-	console.log("mastery_info",mastery_info);
+	//console.log("mastery_info",mastery_info);
 	
 	//matchId 정보
 	let matchId_info_str = $("#matchId_info").val();
@@ -110,7 +114,7 @@ function change_mode(type){
 	var item_data = JSON.parse(sessionStorage.getItem('item_data'));
 	var summoner_data = JSON.parse(sessionStorage.getItem('summoner_data'));
 	var rune_data = JSON.parse(sessionStorage.getItem('rune_data'));
-	console.log(summoner_data);
+	//console.log(rune_data);
 	
 	// queue Type 선언
 	const QUEUETYPE = {
@@ -152,7 +156,7 @@ function change_mode(type){
 			async:false,
 			contentType : "appication/json",
 			success : function(data){
-				console.log(data);
+				//console.log(data);
 				
 				//본인의 MATCH정보 JSONObject로 저장
 				let participants = data.info.participants;
@@ -193,61 +197,70 @@ function change_mode(type){
 							var itemId = key;
 							var imgSrc = "assets/img/item/";
 							var image = item_data[key].image.full;
+							var item_name = item_data[key].name;
 							
 							if(myMatch.item0 == itemId){
 								myMatch.item0 = imgSrc+image;
+								myMatch.item0_name = item_name;
 							}
 							if(myMatch.item1 == itemId){
 								myMatch.item1 = imgSrc+image;
+								myMatch.item1_name = item_name;
 							}
 							if(myMatch.item2 == itemId){
 								myMatch.item2 = imgSrc+image;
+								myMatch.item2_name = item_name;
 							}
 							if(myMatch.item3 == itemId){
 								myMatch.item3 = imgSrc+image;
+								myMatch.item3_name = item_name;
 							}
 							if(myMatch.item4 == itemId){
 								myMatch.item4 = imgSrc+image;
+								myMatch.item4_name = item_name;
 							}
 							if(myMatch.item5 == itemId){
 								myMatch.item5 = imgSrc+image;
+								myMatch.item5_name = item_name;
 							}
 							if(myMatch.item6 == itemId){
 								myMatch.item6 = imgSrc+image;
+								myMatch.item6_name = item_name;
 							}
 						}
 						
 						if(myMatch.item0 == 0){
 							myMatch.item0 = imgSrc+"noItem.png";
+							myMatch.item0_name = "없음";
 						}
 						if(myMatch.item1 == 0){
 							myMatch.item1 = imgSrc+"noItem.png";
+							myMatch.item1_name = "없음";
 						}
 						if(myMatch.item2 == 0){
 							myMatch.item2 = imgSrc+"noItem.png";
+							myMatch.item2_name = "없음";
 						}
 						if(myMatch.item3 == 0){
 							myMatch.item3 = imgSrc+"noItem.png";
+							myMatch.item3_name = "없음";
 						}
 						if(myMatch.item4 == 0){
 							myMatch.item4 = imgSrc+"noItem.png";
+							myMatch.item4_name = "없음";
 						}
 						if(myMatch.item5 == 0){
 							myMatch.item5 = imgSrc+"noItem.png";
+							myMatch.item5_name = "없음";
 						}
 						if(myMatch.item6 == 0){
 							myMatch.item6 = imgSrc+"noItem.png";
+							myMatch.item6_name = "없음";
 						}
 						
-						//스펠 확인
-						
 						//룬 확인
-
 						let rune_1_substr = (myMatch.rune_1_id).toString().substring(0,2);
 						let rune_2_substr = myMatch.rune_2_id;
-						console.log(myMatch.rune_1_id);
-						console.log(myMatch.rune_2_id);
-						
 						for(key in rune_data){
 							if(rune_data[key].id.toString().substring(0,2) == rune_1_substr){ //1번룬 확인
 								myMatch.rune_1_icon = "https://ddragon.leagueoflegends.com/cdn/img/"+rune_data[key].slots[0].runes[0].icon;
@@ -261,6 +274,7 @@ function change_mode(type){
 							}
 						}
 						
+						//스펠 확인
 						for(key in summoner_data){
 							var imgSrc = "assets/img/spell/";
 							if(summoner_data[key].key == myMatch.spell_d){
@@ -276,7 +290,7 @@ function change_mode(type){
 						}
 					}
 				}
-				console.log(myMatch);
+				//console.log(myMatch);
 				//게임시간 확인
 				let gameDuration = data.info.gameDuration;
 				var hour = parseInt(gameDuration/3600) < 10 ? '0'+ parseInt(gameDuration/3600) : parseInt(gameDuration/3600);
@@ -313,14 +327,14 @@ function change_mode(type){
 				html ="";
 				html += "<tr class='"+bg_color+"'>";
 				html += "<td class='align-middle p-1' rowspan='3' style='width:14%; border-bottom : 3px solid lightgrey'>";
-				html += "<img src='"+myMatch.champ_src+"' class='img rounded border border-secondary p-0' style='width:75px; height:75px'>";
+				html += "<img src='"+myMatch.champ_src+"' class='img rounded border border-secondary p-0' style='width:50px; height:50px'>";
 				html += "</td>";
 				html += "<td class='align-middle p-0 text-center' rowspan='3' style='width:5%; border-bottom : 3px solid lightgrey'>";
 				/* 룬이랑 스펠 넣을 자리 */
-				html += "<span class='p-0 text-center' id='spell_d' onmouseenter='show_tooltip(\""+myMatch.spell_d_name+"\", \""+myMatch.spell_d_desc+"\");' onmouseout='no_tooltip();'><img class='img rounded' src='"+myMatch.spell_d_img+"' style='width:100%;'></span><br>";
-				html += "<span class='p-0 text-center' id='spell_f' onmouseenter='show_tooltip(\""+myMatch.spell_f_name+"\", \""+myMatch.spell_f_name+"\");' onmouseout='no_tooltip();'><img class='img rounded' src='"+myMatch.spell_f_img+"' style='width:100%;'></span><br><hr class='mt-1 mb-1 p-0'>";
-				html += "<span class='p-0 text-center' id='rune_1' onmouseenter='show_tooltip(\""+myMatch.rune_1_name+"\", \""+myMatch.rune_1_shortDesc+"\");' onmouseout='no_tooltip();'><img class='img rounded' src='"+myMatch.rune_1_icon+"' style='width:100%;'></span><br>";
-				html += "<span class='p-0 text-center' id='rune_2' onmouseenter='show_tooltip(\""+myMatch.rune_2_name+"\", \"none\");' onmouseout='no_tooltip();'><img class='img rounded'src='"+myMatch.rune_2_icon+"' style='width:80%;'></span><br>";
+				html += "<button class='p-0 text-center btn btn-secondary border-0' id='spell_d' tabindex='0' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.spell_d_name+" ] "+myMatch.spell_d_desc+"'><img class='img rounded' src='"+myMatch.spell_d_img+"' style='width:25px;'></button><br>";
+				html += "<button class='p-0 text-center btn btn-secondary border-0' id='spell_d' tabindex='0' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.spell_f_name+" ] "+myMatch.spell_f_desc+"'><img class='img rounded' src='"+myMatch.spell_f_img+"' style='width:25px;'></button><br>";
+				html += "<button class='p-0 mt-2 text-center btn btn-secondary border-0' id='spell_d' tabindex='0' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.rune_1_name+" ] "+myMatch.rune_1_shortDesc+"'><img class='img rounded' src='"+myMatch.rune_1_icon+"' style='width:25px;'></button><br>";
+				html += "<button class='p-0 text-center btn btn-secondary border-0' id='spell_d' tabindex='0' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.rune_2_name+" ]'><img class='img rounded' src='"+myMatch.rune_2_icon+"' style='width:20px;'></button><br>";
 				html += "</td>";
 				html += "<td class='align-middle text-center' style='width:25%'>";
 				html += "<span id='qtype' class='p-0 text-muted fw-bolder'>"+myMatch.queueType+"</span>";
@@ -355,13 +369,13 @@ function change_mode(type){
 				html += "<span class='p-0 text-muted fw-bolder' id='duration'>"+myMatch.gameDuration+"</span>";
 				html += "</td>";
 				html += "<td colspan ='2' class='align-middle text-center p-0' style='border-bottom : 3px solid lightgrey; border-left: 2px solid #f8f8f8;'>";
-				html += "<img src='"+myMatch.item0+"' class='img p-0 rounded border border-white' id='item0_img' style='width:13%;'>";
-				html += "<img src='"+myMatch.item1+"' class='img p-0 rounded border border-white' id='item1_img' style='width:13%;'>";
-				html += "<img src='"+myMatch.item2+"' class='img p-0 rounded border border-white' id='item2_img' style='width:13%;'>";
-				html += "<img src='"+myMatch.item3+"' class='img p-0 rounded border border-white' id='item3_img' style='width:13%;'>";
-				html += "<img src='"+myMatch.item4+"' class='img p-0 rounded border border-white' id='item4_img' style='width:13%;'>";
-				html += "<img src='"+myMatch.item5+"' class='img p-0 rounded border border-white' id='item5_img' style='width:13%;'>";
-				html += "<img src='"+myMatch.item6+"' class='img p-0 rounded border border-white' id='item6_img' style='width:13%;'>";
+				html += "<img src='"+myMatch.item0+"' class='img p-0 rounded border border-white' id='item0_img' style='width:13%;' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.item0_name+" ]'>";
+				html += "<img src='"+myMatch.item1+"' class='img p-0 rounded border border-white' id='item1_img' style='width:13%;' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.item1_name+" ]'>";
+				html += "<img src='"+myMatch.item2+"' class='img p-0 rounded border border-white' id='item2_img' style='width:13%;' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.item2_name+" ]'>";
+				html += "<img src='"+myMatch.item3+"' class='img p-0 rounded border border-white' id='item3_img' style='width:13%;' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.item3_name+" ]'>";
+				html += "<img src='"+myMatch.item4+"' class='img p-0 rounded border border-white' id='item4_img' style='width:13%;' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.item4_name+" ]'>";
+				html += "<img src='"+myMatch.item5+"' class='img p-0 rounded border border-white' id='item5_img' style='width:13%;' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.item5_name+" ]'>";
+				html += "<img src='"+myMatch.item6+"' class='img p-0 rounded border border-white' id='item6_img' style='width:13%;' data-toggle='tooltip' data-bs-placement='top' title='[ "+myMatch.item6_name+" ]'>";
 				html += "</td>";
 				html += "</tr>";
 				
@@ -489,6 +503,8 @@ function change_mode(type){
 $(function(){
 	//처음 결과 load
 	change_mode('solo');
+	$('[data-toggle="tooltip"]').tooltip();   
+		
 });
 
 
@@ -583,30 +599,6 @@ $(function(){
         </div>
       </div>
     </div>
-    
-	<!-- Modal -->
-	<form id='search_frm' method='post' action='/summoner'>
-		<div class="modal fade align-middle" id="main_btn_modal" tabindex="-1" aria-labelledby="main_btn_modalLabel" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog centered bg-transparent">
-		    <div class="modal-content bg-transparent  border border-0">
-		      
-		      <div class="modal-body d-flex flex-column">
-		      	<div class='col-12 border border-white rounded p-2 bg-white'>
-		      		<h2>롤 전적을 확인하려고?</h2>
-		      		<input type='text' name ='lol_id' id='lol_id' class='form-control mt-5' placeholder='아이디 입력'/>
-		        	<button type="submit" class='btn rounded btn-primary mt-2 mb-5' id='total_search_btn'>전적검색</button>
-		        </div>
-		        <div class='col-12 border border-white rounded p-2 bg-white mt-2'>
-		        	<h2>챔피언 정보를 확인하려고?</h2>
-		        	<button type="button" class='btn rounded btn-primary mt-5 mb-5' id='champ_search_btn' onclick="javascript:location.href='go_champ_page'">챔피언 전체보기</button>
-		        </div>
-		      </div>
-		      
-		    </div>
-		  </div>
-		</div>
-	</form>
-	<!-- Modal -->
   </section>
   <!-- section_1 -->
   
@@ -629,7 +621,12 @@ $(function(){
     	<span class='fw-bolder text-white' id='perk_name'><!--  --></span></br>
     	<span id='perk_desc'><!--  --></span>
     </div>
-  </section><!-- End Hero -->
+  </section>
+	<!-- section_2 -->
+  
+  <!-- control_modal -->
+	<%@include file='./control_modal.jsp' %>
+	<!-- control_modal -->
   
   <footer id='footer' class='position-fixed bottom-0 col-12 pb-2 pt-1'>
   		<div class="d-flex justify-content-center justify-content-lg-start footer-top pt-0 pb-0 bg-transparent">

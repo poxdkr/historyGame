@@ -4,6 +4,7 @@
 <%
 GetData getData = new GetData();
 String ak = (String)getData.get_ak();
+String g_ak = (String)getData.get_g_ak();
 %>    
  <!DOCTYPE html>
  <html>
@@ -12,17 +13,18 @@ String ak = (String)getData.get_ak();
 <%@include file="common.jsp" %>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
  
-  <title>HistoryGame</title>
+  <title>Untitled _ LoL</title>
 <!--   <meta content="" name="description"> -->
   <meta content="" name="keywords">
 </head>
 
 <body>
 	<input type='hidden' name='ak' id='ak' value=<%=ak %> >
+	<input type='hidden' name='g_ak' id='g_ak' value=<%=g_ak %> >
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center">
-      <h1 class="logo me-auto"><a href="/"><small class='fw-bolder'>HistoryGame <span class='text-muted small'>(made by. WG)</span></small></a></h1>
+      <h1 class="logo me-auto"><a href="/"><small class='fw-bolder'>Untitled<span class='text-muted small'>(made by. WG)</span></small></a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 

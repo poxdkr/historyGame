@@ -40,7 +40,7 @@
 toastr.options ={
 	positionClass: "toast-top-full-width"
 }
-var api_key = "RGAPI-4aece921-0bd0-4d77-8d0b-ebce93db65e1";
+
 </script>
 <style>
 .toast-top-full-width {

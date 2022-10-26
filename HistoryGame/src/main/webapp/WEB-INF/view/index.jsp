@@ -21,30 +21,13 @@
         </div>
       </div>
     </div>
-	<!-- Modal -->
-	<form id='search_frm' method='post' action='/summoner'>
-		<div class="modal fade align-middle" id="main_btn_modal" tabindex="-1" aria-labelledby="main_btn_modalLabel" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog centered bg-transparent">
-		    <div class="modal-content bg-transparent  border border-0">
-		      
-		      <div class="modal-body d-flex flex-column">
-		      	<div class='col-12 border border-white rounded p-2 bg-white'>
-		      		<h2>롤 전적을 확인하려고?</h2>
-		      		<input type='text' name ='lol_id' id='lol_id' class='form-control mt-5' placeholder='아이디 입력'/>
-		        	<button type="submit" class='btn rounded btn-primary mt-2 mb-5' id='total_search_btn'>전적검색</button>
-		        </div>
-		        <div class='col-12 border border-white rounded p-2 bg-white mt-2'>
-		        	<h2>챔피언 정보를 확인하려고?</h2>
-		        	<button type="button" class='btn rounded btn-primary mt-5 mb-5' id='champ_search_btn' onclick="javascript:location.href='go_champ_page'">챔피언 전체보기</button>
-		        </div>
-		      </div>
-		      
-		    </div>
-		  </div>
-		</div>
-	</form>
-	<!-- Modal -->
+	
   </section><!-- End Hero -->
+  
+  <!-- control_modal -->
+	<%@include file='./control_modal.jsp' %>
+	<!-- control_modal -->
+  
   <footer id='footer' class='position-absolute bottom-0 col-12 pb-2'>
   		<div class="d-flex justify-content-center justify-content-lg-start footer-top pt-0 pb-0 bg-transparent">
           	<!-- modal trigger -->

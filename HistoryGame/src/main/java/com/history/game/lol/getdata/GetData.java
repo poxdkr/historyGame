@@ -15,12 +15,17 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 public class GetData {
 	
-	private final String api_key = "RGAPI-f1e1d8e5-88ed-4afe-b7ca-ab046e7635f8";
+	private final String api_key = "RGAPI-9545b640-af42-4d50-98e5-eef7cbeaabfc";
+	private final String g_api_key = "AIzaSyDx23lmbKy0y6Xh2_tfmAHc9O1s0x0KvBQ";
 	private final String base_url = "https://kr.api.riotgames.com";
 	
 	//api_key getter
 	public String get_ak(){
 		return this.api_key;
+	}
+	
+	public String get_g_ak() {
+		return this.g_api_key;
 	}
 	
 	//
