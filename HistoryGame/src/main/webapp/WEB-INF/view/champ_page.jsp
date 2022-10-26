@@ -85,7 +85,7 @@ function open_champ(champ_name){
 						var result = {};
 						result.index = i; //index
 						result.videoId = result_list[i].id.videoId; //videoId
-						result.videoSrc ="https://www.youtube.com/embed/"+result_list[i].id.videoId+"?autoplay=1"; //embed할 비디오의 주소
+						result.videoSrc ="https://www.youtube.com/embed/"+result_list[i].id.videoId; //embed할 비디오의 주소
 						let title = result_list[i].snippet.title; //title 최대 12자
 						let description = result_list[i].snippet.description; //description 최대 20자
 						result.title = title.length > 20 ? title.substring(0,20)+"..." : title;
@@ -241,6 +241,11 @@ function open_video(video_src){
 	$("#champ_video").attr("src",video_src);
 }
 
+function close_video(){
+	//video 초기화
+	$("#champ_video").attr("src","");
+}
+
 //첫 로드시 모두 나오도록 함
 let type="all";
 let keyword = "";
@@ -356,8 +361,8 @@ $(function(){
 	    <div class="modal-content bg-transparent  border border-0">
 	      <div class="modal-body bg-transparent">
 	      	<div class='col-12 p-0 d-flex justify-content-center align-items-center' style="height:450px;">
-	      		<button type="button" class="btn btn-danger position-fixed mx-auto ps-3 pe-3" data-bs-dismiss="modal" style='top : 15px; z-index:9999;'> X </button>
-				<iframe id='champ_video' width="300" height="220"src=""></iframe>
+	      		<button type="button" class="btn btn-danger position-fixed mx-auto ps-3 pe-3" data-bs-dismiss="modal" style='top : 15px; z-index:9999;' onclick="close_video();"> X </button>
+				<iframe class='p-0' id='champ_video' width="350" height="250" src=""></iframe>
 	      	</div>
 	      </div>
 	    </div>
