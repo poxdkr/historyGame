@@ -22,8 +22,7 @@ String g_ak = (String)getData.get_g_ak();
 	  function get_time(){
 		  let now = new Date();
 		  let year = now.getFullYear().toString().substring(2,4);
-		  
-		  let month = now.getMonth() < 10 ? "0"+now.getMonth() : now.getMonth();
+		  let month = now.getMonth()+1 < 10 ? "0"+now.getMonth()+1 : now.getMonth()+1;
 		  let date = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
 		  let day = now.getDay();
 		  switch(day){

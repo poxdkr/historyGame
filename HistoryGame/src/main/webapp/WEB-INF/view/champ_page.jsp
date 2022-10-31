@@ -8,7 +8,8 @@
 <style>
 	#champ_mov {
 		width : 100%;
-	} 
+	}
+	
 	#mov_result_div{
 		min-height : 150px;
 	}
@@ -18,6 +19,7 @@
 		overflow : hidden;
 	}
 </style>
+
 <script>
 var skill_set = {"passive":{},"spell_0":{},"spell_1":{},"spell_2":{},"spell_3":{}};
 var g_api_key = $("#g_ak").val();
@@ -64,7 +66,7 @@ function open_champ(champ_name){
 			let keyword = c_data.name+" 강의";
 			let search_data = {};
 			search_data.part =  "id, snippet";
-			search_data.maxResults =  "10";
+			search_data.maxResults =  "5";
 			search_data.order = "viewCount";
 			search_data.q = keyword;
 			search_data.type = "video";
@@ -111,11 +113,7 @@ function open_champ(champ_name){
 					console.log(data);
 				}
 			}); 
-			
-			
-			
 		} // champ_data for 종료
-		
 	}); //fetch then 종료
 }
 
@@ -310,7 +308,7 @@ $(function(){
 	      			</div>
 	      			<div class='col-9 d-flex flex-column'>
 	      				<div class='col-12 d-flex justify-content-between p-0'>
-	      					<div class='col-12 p-3 m-1 position-absolute border border-secondary bg-light bg-gradient' style='top:50px; left:0px; display:none;' id='skill_desc'>
+	      					<div class='col-12 p-3 m-1 position-absolute border border-secondary bg-light bg-gradient' style='top:50px; left:0px; display:none; z-index:999999;' id='skill_desc'>
 	      						<small class='text-dark col-12 p-0' style='font-size:10px;'> [ <span id='skill_desc_name'>스킬명</span> ]</small><br/>
 	      						<small class='text-muted' id='skill_desc_span' style='font-size:8px;'>스킬설명</small>
 	      					</div>
